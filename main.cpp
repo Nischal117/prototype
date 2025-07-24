@@ -7,6 +7,7 @@
 
 
 #include "signUp.h"
+#include "logIn.h"
 
 #define ACODE 117
 
@@ -50,12 +51,28 @@ int main()
     vector<string> airLine = {
   "Emirates", "Delta", "British", "American", "Lufthansa" , "LockHeed.PVT"}; 
     
-   while(true){
 
+    clear();
+    refresh();
+    WINDOW* welcome = newwin(5 , 50 , (getmaxy(stdscr) - 5) / 2 , (getmaxx(stdscr)-50)/2);
+    wmove(welcome , 2 , 2);
+    wprintw(welcome , "WELCOME THE THE FLIGHT RESERVATION");
+    wmove(welcome , 5 , 2);
+    wprintw(welcome , "Press any key to get started");
+    wrefresh(welcome);
+    getch();
+    delwin(welcome);
+    
+
+
+   while(true){
 
  WINDOW* menu_win =newwin(12,50,(getmaxy(stdscr)-12)/2,(getmaxx(stdscr)-50)/2);
  int highlight = 0;
  int choice = -1;
+
+
+    
 
     while(true) {
     wclear(menu_win);
@@ -115,10 +132,43 @@ int main()
     }
       break;
     
-    case 1: 
-        continue;
-        break;
+    case 1 : {
+        vector<string> logInOptions = {"Username/Gmail : " , "Password : " , "Submit" , "Cancel"};
+        
+        logIn activateLog;
 
+        if(activateLog.showLogIn(logInOptions))
+        {
+            clear();
+            refresh();
+  WINDOW* status_win = newwin(5 , 50 , (getmaxy(stdscr) - 5) / 2 , (getmaxx(stdscr) - 50) / 2 );
+        wmove(status_win , 2 , 2);
+        wprintw(status_win , "Log in Successful.");
+        wmove(status_win , 5 , 2);
+        wprintw(status_win , "Press any key to continue");
+        wrefresh(status_win);
+        getch();
+        delwin(status_win);
+       
+        }
+        else
+        {
+        clear();
+        refresh();
+  WINDOW* status_win = newwin(5 , 50 , (getmaxy(stdscr) - 5) / 2 , (getmaxx(stdscr) - 50) / 2);
+        wmove(status_win , 2 , 2);
+        wprintw(status_win , "Log In Unsuccessful.");
+        wmove(status_win , 5 , 2);
+        wprintw(status_win , "Press any key to continue");
+        wrefresh(status_win);
+        getch();
+        delwin(status_win);
+
+        }
+       
+        }
+        break;
+       
     case 2:
        continue;    
        break;

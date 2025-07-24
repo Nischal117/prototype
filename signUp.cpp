@@ -76,7 +76,7 @@
     WINDOW* win = newwin(12 , 50 , (getmaxy(stdscr) - 12) / 2 , (getmaxx(stdscr)-50) / 2 );
   //  string username , gmail , password;
     int active_input = 0;
-    SignUp signUpObj;
+ //   SignUp signUpObj;
 
     while(true) {
     wclear(win);
@@ -91,7 +91,7 @@
          wattroff(win , A_REVERSE);
         }   
         wrefresh(win);
-        wrefresh(win);
+   //     wrefresh(win);
 
         int inC  = getch();
 //(ch == KEY_UP || (ch == '\t' && active_field > 0)) 
@@ -177,6 +177,10 @@ else if(inC == '\n' && active_input == 3) // check if empty and gmail..
      delwin(msg_win);  
      clear();
      refresh();
+     username = "";
+     gmail = "";
+     password = "";
+     continue;
     }
 
     else {
@@ -190,6 +194,7 @@ else if(inC == '\n' && active_input == 3) // check if empty and gmail..
      delwin(msg_win);
      clear();
      refresh();
+     
     }
 
 
@@ -207,7 +212,8 @@ else if(inC == '\n' && active_input == 3) // check if empty and gmail..
    getch();
    delwin(msg_win);
    refresh();
-  break; 
+   return true;
+ 
 //  return true;
    }
 
@@ -247,9 +253,8 @@ else if(inC == '\n' && active_input == 3) // check if empty and gmail..
 
 
 
-cout << username << endl;
-return true;
 
+return false;
 
 
 }
