@@ -88,7 +88,8 @@ int main()
     case 0 :
     {
     vector<string> signUpOptions = {"Username : " , "Gmail : " , "Password : " , "Submit" , "Cancel"};   
-    if(showSignUp(signUpOptions))
+    SignUp activate;
+    if(activate.showSignUp(signUpOptions))
         {
          clear();
          refresh();
@@ -96,9 +97,10 @@ int main()
          wmove(statusWin , 2 , 2);
          wprintw(statusWin , "Sign Up Successful.");
          wrefresh(statusWin);
-       
+          
          getch();
          delwin(statusWin);
+         
         }
         else{
             clear();
@@ -113,33 +115,25 @@ int main()
     }
       break;
     
-    case 1: {
-    // for now;
-    continue;
-        }
-    break;
+    case 1: 
+        continue;
+        break;
 
     case 2:
-    {//for now
-    continue;    
-       }
-    break;
+       continue;    
+       break;
 
     case 3:
-    {
     endwin();
-    return 0;
-    }
     break;
+ }
 
-      
-            
-
-        }
+if(choice == 3) break;
 
     }
 
-    endwin();
+  
+    
     return 0;
 
 

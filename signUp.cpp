@@ -1,14 +1,82 @@
-#include "signUp.h"
+#include "signUp.h"    
+
+ 
+
+ bool SignUp::findDuplicate() {
+
+    map<string , string>userData;
+
+    ifstream file ("user.csv");
+
+    if(file.is_open())
+    {
+     string discardLine;
+     string line;
+
+     getline(file , discardLine);
+
+     while(getline(file , line))
+     {
+        stringstream store(line);
+        string uname , pwd , mail;
+
+    if(getline(store , uname , ',') && getline(store , mail , ',') && getline(store , pwd , ','))
+    {
+    userData[uname] = pwd;
+    userData[mail] = pwd;
+    }
+
+    }
+
+    file.close();
+
+    if(userData.find(username) != userData.end()) {
+     return true;
+        }
+
+    if(userData.find(gmail) != userData.end()) {
+    return true;
+        }
+   }    
+
+    else
+    {
+    return true;
+    }
+
+
+
+    ofstream outFile("user.csv" , ios::app);
+    
+    if(outFile.is_open())
+        {
+        outFile << username << "," << gmail << "," << password << "\n";
+        outFile.close();
+        return false;
+        }
+    else {
+        return true;
+        }
+
+
+
+    return true;
+
+    }
 
 
 
 
-bool showSignUp(const vector<string>& options){
+
+
+  bool SignUp::showSignUp(const vector<string>& options){
     
 
+
     WINDOW* win = newwin(12 , 50 , (getmaxy(stdscr) - 12) / 2 , (getmaxx(stdscr)-50) / 2 );
-    string username , gmail , password;
+  //  string username , gmail , password;
     int active_input = 0;
+    SignUp signUpObj;
 
     while(true) {
     wclear(win);
@@ -45,7 +113,10 @@ active_input = (active_input + 1) % options.size();
 }
 else if(inC == 27) // esc
 {
-WINDOW* cancelWin = newwin(12 ,50,(getmaxy(stdscr)-12)/2 ,(getmaxx(stdscr)-50)/2 );
+delwin(win);
+clear();
+refresh();
+WINDOW* cancelWin = newwin(5 ,50,(getmaxy(stdscr)-5)/2 ,(getmaxx(stdscr)-50)/2 );
 wmove(cancelWin , 2 ,2);
 wprintw(cancelWin , "Cancelled signUp, press any key to continue..");
 wrefresh(cancelWin);
@@ -59,7 +130,10 @@ else if(inC == '\n' && active_input == 3) // check if empty and gmail..
 {
     if(username.empty() || gmail.empty() || password.empty() )
     {
-     WINDOW* msg_win = newwin(12 , 50 , (getmaxy(stdscr)-12)/2 , (getmaxx(stdscr)-50)/2);
+     wclear(win);
+     clear();
+     refresh();
+     WINDOW* msg_win = newwin(5 , 40 , (getmaxy(stdscr)-5)/2 , (getmaxx(stdscr)-40)/2);
      wmove(msg_win , 2 , 2);
      wprintw(msg_win , "Any fields cannot be empty press any key to continue");
      wrefresh(msg_win);
@@ -69,7 +143,10 @@ else if(inC == '\n' && active_input == 3) // check if empty and gmail..
     }
      if(gmail.find("@gmail.com") == std::string::npos)
      {
-      WINDOW* msg_win = newwin(12 , 50 , (getmaxy(stdscr)-12)/2 , (getmaxx(stdscr)-50)/2);
+      wclear(win);
+      clear();
+      refresh();
+      WINDOW* msg_win = newwin(5 , 50 , (getmaxy(stdscr)-5)/2 , (getmaxx(stdscr)-50)/2);
       wmove(msg_win , 2 , 2);
       wprintw(msg_win , "Invalid gmail format, press any key to continue");
       wrefresh(msg_win);
@@ -78,6 +155,45 @@ else if(inC == '\n' && active_input == 3) // check if empty and gmail..
       continue; 
     }
 
+      delwin(win);
+      clear();
+      refresh();
+
+    if(findDuplicate()) {
+       
+     WINDOW* msg_win = newwin(8 , 50 , (getmaxy(stdscr) - 8) / 2 , (getmaxx(stdscr) - 50) / 2);
+     wmove(msg_win , 2 , 2);
+     wprintw(msg_win , "Sorry SignUp was Unsuccessful.");
+     wmove(msg_win , 3 , 2);
+     wprintw(msg_win , "Possible reasons : ");
+     wmove(msg_win , 4 , 2);
+     wprintw(msg_win , "Username or Gmail already exists..");
+     wmove(msg_win , 5 , 2);
+     wprintw(msg_win , "File not openning..(Probably not this");
+     wmove(msg_win , 7 , 2);
+     wprintw(msg_win , "Press any key to continue");
+     wrefresh(msg_win);
+     getch();
+     delwin(msg_win);  
+     clear();
+     refresh();
+    }
+
+    else {
+     WINDOW* msg_win = newwin(5 , 40 , (getmaxy(stdscr) - 5 ) / 2 , (getmaxx(stdscr) - 40 ) / 2 );
+     wmove(msg_win , 2 , 2);
+     wprintw(msg_win , "SignUp was Successful." );
+     wmove(msg_win , 4 , 2);
+     wprintw(msg_win , "Press any key to continue");
+     wrefresh(msg_win);
+     getch();
+     delwin(msg_win);
+     clear();
+     refresh();
+    }
+
+
+  
    WINDOW* msg_win = newwin(12 , 50 , (getmaxy(stdscr)-12)/2 , (getmaxx(stdscr)-50)/2);
    wmove(msg_win , 1 , 2);
    wprintw(msg_win , "Submitted: ");
@@ -90,22 +206,24 @@ else if(inC == '\n' && active_input == 3) // check if empty and gmail..
    wrefresh(msg_win);
    getch();
    delwin(msg_win);
-   delwin(win);
    refresh();
-  return true;
+  break; 
+//  return true;
    }
 
 
    else if(inC == '\n' && active_input == 4)
    {   
- WINDOW* msg_win = newwin(12 , 50 , (getmaxy(stdscr)-12)/2 , (getmaxx(stdscr)-50)/2);
+ delwin(win);
+ clear();
+ refresh();
+ WINDOW* msg_win = newwin(5 , 50 , (getmaxy(stdscr)-5)/2 , (getmaxx(stdscr)-50)/2);
  wmove(msg_win , 2 , 2);
  wprintw(msg_win , "Canceled! press any key to exit");
  wrefresh(msg_win);
  getch();
  delwin(msg_win);
- delwin(win);
- refresh();
+  refresh();
  return false;
    }  
 
@@ -126,6 +244,11 @@ else if(inC == '\n' && active_input == 3) // check if empty and gmail..
    }
 
   }
+
+
+
+cout << username << endl;
+return true;
 
 
 
