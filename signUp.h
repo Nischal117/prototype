@@ -32,6 +32,7 @@ class SignUp {
     std::string password = "";
     std::string gmail = "";
 
+
  public:
     string getUsername() const{ return username; }
     string getGmail() const{ return gmail; }

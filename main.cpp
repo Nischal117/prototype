@@ -38,6 +38,8 @@ void print_menu(WINDOW* win , const vector<string>& options , int highlight)
 
 int main()
     {
+        string loggedUser;
+        string pass;
   vector<string> menu_option = {"SIGN UP" , "LOG IN" , "ADMIN PANEL" , "EXIT"};
 
     initscr();
@@ -57,7 +59,7 @@ int main()
     WINDOW* welcome = newwin(5 , 50 , (getmaxy(stdscr) - 5) / 2 , (getmaxx(stdscr)-50)/2);
     wmove(welcome , 2 , 2);
     wprintw(welcome , "WELCOME THE THE FLIGHT RESERVATION");
-    wmove(welcome , 5 , 2);
+    wmove(welcome , 4 , 2);
     wprintw(welcome , "Press any key to get started");
     wrefresh(welcome);
     getch();
@@ -133,12 +135,50 @@ int main()
       break;
     
     case 1 : {
+        logIn activateLog;
+        int choice;
+        vector<string> status = {"Customer" , "Admin" };
+
+        choice = activateLog.customerOrAdmin(status);
+
+        if(choice == 0)
+        {
+    //     clear();
+    //     refresh();
+         WINDOW* msg_win = newwin(5 , 40 , (getmaxy(stdscr)-5)/2 , (getmaxx(stdscr)-40) / 2);
+         wmove(msg_win , 2 , 2 );
+         wprintw(msg_win , "Press any key to continue to User login");
+         wrefresh(msg_win);
+         getch();
+         delwin(msg_win);
+
+        }
+
+        else if(choice== 1)
+        {
+   //      clear();
+   //      refresh();
+         WINDOW* msg_win = newwin(5 , 40 , (getmaxy(stdscr) - 5) / 2 , (getmaxx(stdscr) - 40) / 2);
+
+         wmove(msg_win , 2 , 2);
+         wprintw(msg_win , "Press any key to continue to Admin Login");
+         wrefresh(msg_win);
+         getch();
+         delwin(msg_win);
+         goto adminLogIn;
+        }
+        else if(choice == 2)
+        {
+        continue;
+        }
+
+
         vector<string> logInOptions = {"Username/Gmail : " , "Password : " , "Submit" , "Cancel"};
         
-        logIn activateLog;
-
+        
         if(activateLog.showLogIn(logInOptions))
         {
+            loggedUser = activateLog.getUsername();
             clear();
             refresh();
   WINDOW* status_win = newwin(5 , 50 , (getmaxy(stdscr) - 5) / 2 , (getmaxx(stdscr) - 50) / 2 );
@@ -170,8 +210,45 @@ int main()
         break;
        
     case 2:
-       continue;    
-       break;
+    {
+
+        adminLogIn:
+            
+        vector<string> logInOptions = {"Admin ID: " , "CODE: " , "Submit" , "Cancel" };
+        logIn adminActivate;
+      
+          if(adminActivate.adminLogIn(logInOptions))
+        {
+            pass = adminActivate.getAdmin();
+            clear();
+            refresh();
+  WINDOW* status_win = newwin(5 , 50 , (getmaxy(stdscr) - 5) / 2 , (getmaxx(stdscr) - 50) / 2 );
+        wmove(status_win , 2 , 2);
+        wprintw(status_win , "Log in Successful.");
+        wmove(status_win , 5 , 2);
+        wprintw(status_win , "Press any key to continue");
+        wrefresh(status_win);
+        getch();
+        delwin(status_win);
+       
+        }
+        else
+        {
+        clear();
+        refresh();
+  WINDOW* status_win = newwin(5 , 50 , (getmaxy(stdscr) - 5) / 2 , (getmaxx(stdscr) - 50) / 2);
+        wmove(status_win , 2 , 2);
+        wprintw(status_win , "Log In Unsuccessful.");
+        wmove(status_win , 5 , 2);
+        wprintw(status_win , "Press any key to continue");
+        wrefresh(status_win);
+        getch();
+        delwin(status_win);
+
+        }
+
+  }
+  break;
 
     case 3:
     endwin();
@@ -183,7 +260,9 @@ if(choice == 3) break;
     }
 
   
-    
+  
+    cout << loggedUser << endl;
+    cout << pass << endl;
     return 0;
 
 

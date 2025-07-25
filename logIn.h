@@ -2,6 +2,9 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
+#define ACODE 117
+
+
 #include <ncurses.h>
 #include <vector>
 #include <string>
@@ -32,11 +35,24 @@ using std::stringstream;
     string gmail = "";
     string password = "";
     string tempId = "";
+    string adminId = "";
+    string adminPass = "";
+    
+
+
 
     public: 
 
+    string getUsername() const {return tempId;}
+    string getAdmin() const {return adminId;}
+    string getPass() const {return adminPass;}
+
+    int customerOrAdmin(const vector<string>& choice); 
     bool showLogIn(const vector<string>& options);
     bool isAuthenticated();
+
+    bool adminLogIn (const vector<string>& options);
+    bool isAdminAuthenticated();
 
     
 

@@ -1,6 +1,5 @@
 #include "signUp.h"    
 
- 
 
  bool SignUp::findDuplicate() {
 
@@ -184,6 +183,7 @@ else if(inC == '\n' && active_input == 3) // check if empty and gmail..
     }
 
     else {
+
      WINDOW* msg_win = newwin(5 , 40 , (getmaxy(stdscr) - 5 ) / 2 , (getmaxx(stdscr) - 40 ) / 2 );
      wmove(msg_win , 2 , 2);
      wprintw(msg_win , "SignUp was Successful." );
